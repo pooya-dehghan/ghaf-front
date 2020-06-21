@@ -1,0 +1,19 @@
+.root{
+    align-self: center;
+    display:flex;
+    flex-direction: column;
+    justify-items: center;
+    justify-content: center;
+}
+.input{
+    align-self: center;
+    margin: 20px;
+}
+.switch{
+    align-self: center;
+    margin: 15px;
+}
+.button{
+    align-self: center;
+    margin: 10px;
+}
