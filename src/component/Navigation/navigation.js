@@ -21,6 +21,9 @@ const useStyles = makeStyles({
   fullList: {
     width: 'auto',
   },
+  MenuOpenIcon : {
+    color: "white"
+  }
 });
 
 export default function SwipeableTemporaryDrawer() {
@@ -85,7 +88,7 @@ export default function SwipeableTemporaryDrawer() {
     <div>
       {['top'].map((anchor) => (
         <React.Fragment key={anchor}>
-          <Button onClick={toggleDrawer(anchor, true)}><MenuOpenIcon /></Button>
+          <Button onClick={toggleDrawer(anchor, true)}><MenuOpenIcon className = {classes.MenuOpenIcon} /></Button>
           <SwipeableDrawer
             anchor={anchor}
             open={state[anchor]}

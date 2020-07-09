@@ -1,0 +1,23 @@
+.signup{
+    font-family: Behdad-Regular , Tahoma , Geneva , sans-serif , Tanha;
+    color: rgba(255, 0, 76, 0.795);
+    height: 100px;
+    width: 100px;
+}
+@font-face {
+    font-family:'Behdad';
+    src:local('Behdad'),
+        local('Behdad'),
+        url('../fonts/Behdad-Regular.woff') format('woff'),
+        url('../fonts/Behdad-Regular.ttf') format('truetype');
+    font-style:normal;
+    font-weight:normal;
+}
+/* @font-face {
+    font-family: Tanha;
+    src: url('Tanha.eot');
+    src: url('Tanha.eot?#iefix') format('embedded-opentype'),
+        url('Tanha.woff') format('woff'),
+        url('Tanha.ttf') format('truetype');
+    font-weight: normal;
+} */

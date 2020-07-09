@@ -5,6 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^4.10.1",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
+    "axios": "^0.19.2",
     "cra-template": "1.0.3",
     "material-table": "^1.59.0",
     "material-ui": "^0.20.2",

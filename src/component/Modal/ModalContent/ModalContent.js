@@ -1,24 +1,24 @@
 import React from 'react';
 import Switch from '@material-ui/core/Switch';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import Button from '../../UI/Button/Button';
 import classes from './ModalContent.module.css'
 
-export default function Switches() {
+export default function Switches(props) {
   return (
-    <div className = {classes.root}>
+    <div className = {classes.root} style = {{display :props.open ? "flex" : "none",opacity: props.open ? 1 : 0}} dir="rtl" >
         <div className = { classes.input}>
-            <TextField  id="standard-error" label="email" placeholder="Hello World" />
+            <TextField  id="standard-error" label="ایمیل" placeholder="ایمیل" />
         </div>
         <div className = { classes.input}>
-            <TextField  id="standard-error" label="username" placeholder="Hello World" />
+            <TextField  id="standard-error" label="نام کاربری" placeholder="نام کاربری" />
         </div>
         <div className = { classes.input}>
-            <TextField  id="standard-error" label="code" placeholder="Hello World" />
+            <TextField  id="standard-error" label="کد" placeholder="کد کاربر" />
         </div>
         <div className={classes.switch}>
             <div>
-            allow rule A
+            اجازه دسترسی یک
                 <Switch
                     // checked={state.checkedA}
                     // onChange={handleChange}
@@ -26,7 +26,7 @@ export default function Switches() {
                     inputProps={{ 'aria-label': 'secondary checkbox' }}/>
             </div>
             <div>
-            allow rule B
+                اجازه دسترسی دو
                 <Switch
                     // checked={state.checkedB}
                     // onChange={handleChange}
@@ -36,9 +36,7 @@ export default function Switches() {
             </div>
         </div>
         <div className = {classes.button}>
-        <Button variant="contained" color="primary">
-            Update/Create
-        </Button>
+            <Button label = "اپدیت و ساخت" />
         </div>   
     </div>
   );

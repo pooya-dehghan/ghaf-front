@@ -1,7 +1,6 @@
 import React from 'react';
 import MaterialTable from 'material-table';
-
-export default function MaterialTableDemo() {
+export default function MaterialTableDemo(props) {
   const [state, setState] = React.useState({
     columns: [
       { title: 'Room', field: 'room' },
@@ -15,7 +14,6 @@ export default function MaterialTableDemo() {
       { room: 'room4', role:'teacher' },
       { room: 'room5', role:'student' },
       { room: 'room6', role:'teacher' },
-
     ],
   });
 

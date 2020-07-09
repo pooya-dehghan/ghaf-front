@@ -2,8 +2,26 @@
     align-self: center;
     display:flex;
     flex-direction: column;
+    width: 400px;
+    height: 500px;
     justify-items: center;
     justify-content: center;
+    box-shadow:
+        0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+        0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+        0 12.5px 10px rgba(0, 0, 0, 0.06),
+        0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+        0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+        0 100px 80px rgba(0, 0, 0, 0.12);
+    position: fixed;
+    z-index: 500;
+    left:50%;
+    top:50%;
+    margin-top: -250px;
+    margin-left: -200px;
+    background-color: white;
+    border-radius: 25px;
+    transition:all 300ms ease-in-out; 
 }
 .input{
     align-self: center;
@@ -16,4 +34,12 @@
 .button{
     align-self: center;
     margin: 10px;
+}
+@media only screen and (max-width: 700px) {
+    .root {
+        width:250px;
+        height: 500px;
+        margin-top: -250px;
+        margin-left: -125px;
+    }
 }
