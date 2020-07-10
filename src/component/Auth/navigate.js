@@ -17,8 +17,6 @@ const useStyles = makeStyles({
 
 export default function SimpleBottomNavigation(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
   return (
     <BottomNavigation
       value={props.value}
@@ -26,8 +24,8 @@ export default function SimpleBottomNavigation(props) {
       showLabels
       className={classes.root}
     >
-      <BottomNavigationAction label="میهمان" className = {classes.Icon} icon={<PersonAddIcon />} />
       <BottomNavigationAction label="کاربر" className = {classes.Icon} icon={<SchoolIcon />} />
+      <BottomNavigationAction label="میهمان" className = {classes.Icon} icon={<PersonAddIcon />} />
     </BottomNavigation>
   );
 }

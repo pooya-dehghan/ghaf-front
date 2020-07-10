@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -17,8 +17,14 @@ import Tab from './navigate'
 import axios from 'axios'
 import Success from '../Alert/Success'
 import Behdad from '../../assets/fonts/Behdad-Regular.woff2'
+import Snipper from '../UI/Snipper/snipper2'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import {useParams} from 'react-router-dom'
+import Image from '../../assets/image/2-ghafmobile.png'
+import { create } from 'jss';
+import rtl from 'jss-rtl';
+import { StylesProvider, jssPreset } from '@material-ui/core/styles';
+const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const raleway = {
   fontFamily: 'Arial',
@@ -34,6 +40,7 @@ const raleway = {
     'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
 };
 const theme = createMuiTheme({
+  direction: 'rtl',
   typography: {
     fontFamily: 'Behdad, Arial',
   },
@@ -53,7 +60,6 @@ const theme = createMuiTheme({
           }
         },
     },
-    
     MuiSvgIcon: {
      root: {
        fontSize: '2rem'
@@ -66,8 +72,8 @@ function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        قاف
+      <Link color="inherit" href="https://ghaf.live/">
+        ghaf
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -80,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${Image})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -119,52 +125,82 @@ export default function RoomJoin(props) {
   const [open,setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [tab,setTab] = useState(0);
-  let params = useParams()
-  console.log('params of the usePramas',params)
-  console.log('props: ',props)
-  let room_id = params.room_code
-  console.log('name',name)
-  console.log('email',email)
-  console.log('password',password)
+  const [isWaiting , setIsWaiting] = useState(false)
+  let params = useParams();
+  let room_id = params.room_code;
+
+  useEffect(() => {
+    if(isWaiting){
+      const interval = setInterval(async () => {
+        await axios.post('https://api.ghaf.live/api/join/' + room_id, {
+          email: email,
+          password: password
+        })
+        .then(function (response) {
+          if(response.data.message === 'به زودی به جلسه وارد می‌شوید.'){
+            setIsWaiting(false)
+            window.location.href = response.data.url
+          }
+        })
+        .catch(function (error){
+          setSeverity('error')
+          setMessage('مشکلی وجود دارد')
+          setOpen(true)
+          setTimeout(() => setOpen(false), 3000);
+        }); 
+      }, 10000);
+      return () => clearInterval(interval)
+    }
+  })
+
   const clickHandlerUser = (e) => {
   e.preventDefault()
-  console.log("doing ...");
-    axios.get('http://back.mtamadon.ir:9898/api/join/' + room_id,{
+    axios.post('https://api.ghaf.live/api/join/' + room_id ,{
     email : email,
     password : password
   })
   .then(function (response) {
-    console.log(response);
-    if(response.data === 'همچین کلاسی وجود ندارد!'){
+    if(response.data.message === 'همچین کلاسی وجود ندارد!'){
       setSeverity("error");
       setMessage('همچین کلاسی وجود ندارد');
       setOpen(true);
       setTimeout(() => setOpen(false), 3000);
-    }else{
+    }if(response.data.message === 'شما دسترسی ورود به این جلسه را ندارید!'){
       setSeverity("success");
-      setMessage(response.data);
+      setMessage('شما دسترسی ورود به این جلسه را ندارید');
       setOpen(true);
       setTimeout(() => setOpen(false), 3000);
     }
-    
+    //پس از شروع جلسه به صورت خودکار وارد می‌شوید.
+    if(response.data.message === 'پس از شروع جلسه به صورت خودکار وارد می‌شوید.'){
+      setSeverity("success");
+      setMessage(response.data.message);
+      setOpen(true);
+      setTimeout(() => setOpen(false), 3000);
+      setIsWaiting(true)
+    }if(response.data.message === 'به زودی به جلسه وارد می‌شوید.'){
+      setSeverity("success");
+      setMessage(response.data.message);
+      setOpen(true);
+      setTimeout(() => setOpen(false), 3000);
+      window.location.href = response.data.url
+    }
   })
   .catch(function (error) {
-    console.log('failed')
-    console.log(error);
     setSeverity('error')
     setMessage('مشکلی وجود دارد')
     setOpen(true)
     setTimeout(() => setOpen(false), 3000);
   });
 };
+
 const clickHandlerGuest = (e) => {
   e.preventDefault()
-  console.log("doing ...");
-    axios.get('http://back.mtamadon.ir:9898/api/join/' + room_id,{
+
+    axios.get('https://api.ghaf.live/api/join/' + room_id,{
     name:name
   })
   .then(function (response) {
-    console.log(response);
     if(response.data === 'همچین کلاسی وجود ندارد!'){
       setSeverity("error");
       setMessage('همچین کلاسی وجود ندارد');
@@ -179,8 +215,6 @@ const clickHandlerGuest = (e) => {
     
   })
   .catch(function (error) {
-    console.log('failed')
-    console.log(error);
     setSeverity('error')
     setMessage('مشکلی وجود دارد')
     setOpen(true)
@@ -257,31 +291,50 @@ const userForm =
               وارد شوید
             </Button>
           </form>
-  const Form = tab === 0 ? guestForm : userForm 
-  console.log('props: ',props)
+  const Form = tab === 1 ? guestForm : userForm 
   return (
-  <ThemeProvider theme={theme}>
-    <Grid container component="main" className={classes.root}>
-      <Success open = {open} severity = {severity} message = {message} onClose = {closeHandler}/>
-      {/* <CssBaseline /> */}
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-        <Grid item>
-          <Typography component="h1" variant="h5" className = {classes.typography}>
-            وارد شدن به کلاس
-          </Typography>
-        </Grid>
-          <Grid container justify = "center" >
-            <Tab onChange = {handleChange} value = {tab}/>
+    <StylesProvider jss={jss}>
+      <ThemeProvider theme={theme}>
+      <Snipper show = {isWaiting}/>
+        <Grid container component="main" className={classes.root}>
+          <Success
+            open={open}
+            severity={severity}
+            message={message}
+            onClose={closeHandler}
+          />
+          {/* <CssBaseline /> */}
+          <Grid item xs={false} sm={4} md={7} className={classes.image} />
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
+          >
+            <div className={classes.paper} dir="rtl">
+              <Grid item>
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  className={classes.typography}
+                >
+                  وارد شدن به کلاس
+                </Typography>
+              </Grid>
+              <Grid container justify="center">
+                <Tab onChange={handleChange} value={tab} />
+              </Grid>
+              {Form}
+              <Box mt={5}>
+                <Copyright />
+              </Box>
+            </div>
           </Grid>
-          {Form}
-          <Box mt={5}>
-              <Copyright />
-          </Box>
-        </div>
-      </Grid>
-    </Grid>
-  </ThemeProvider>
+        </Grid>
+      </ThemeProvider>
+    </StylesProvider>
   );
 }

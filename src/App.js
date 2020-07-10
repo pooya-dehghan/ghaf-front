@@ -41,7 +41,7 @@ function App() {
 
   let routes = (
     <Switch>
-      <Route component={SignIn} path={"/"} exact/>
+      <Route component={SignIn} path={"/SignIn"} exact/>
       <Route component={SignUp} path={"/SignUp"} />
       <Route component={User} path={"/User"}/>
       <Route component={Admin} path={"/Admin"}/>

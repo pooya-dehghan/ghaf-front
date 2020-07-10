@@ -16,6 +16,11 @@ import axios from 'axios'
 import Success from '../Alert/Success'
 import Behdad from '../../assets/fonts/Behdad-Regular.woff2'
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import Image from '../../assets/image/2-ghafmobile.png'
+import { create } from "jss";
+import rtl from "jss-rtl";
+import { StylesProvider, jssPreset } from "@material-ui/core/styles";
+const jss = create({ plugins: [...jssPreset().plugins, rtl()] });
 
 const raleway = {
   fontFamily: 'Arial',
@@ -31,13 +36,14 @@ const raleway = {
     'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF',
 };
 const theme = createMuiTheme({
+  direction: "rtl",
   typography: {
-    fontFamily: 'Behdad, Arial',
+    fontFamily: "Behdad, Arial",
   },
   overrides: {
     MuiCssBaseline: {
-      '@global': {
-        '@font-face': [raleway],
+      "@global": {
+        "@font-face": [raleway],
       },
     },
   },
@@ -47,7 +53,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="https://ghaf.live">
-        قاف
+        ghaf
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -60,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
+    backgroundImage: `url(${Image})`,
     backgroundRepeat: 'no-repeat',
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
@@ -99,14 +105,11 @@ export default function SignInSide() {
   // formData.append('password',password)
 const clickHandler = (e) => {
   e.preventDefault()
-  console.log("doing ...");
-    axios.post('http://back.mtamadon.ir:9898/api/login', {
+    axios.post('https://api.ghaf.live/api/login', {
     email: email,
     password:password
   })
   .then(function (response) {
-    console.log('sucsseful');
-    console.log(response);
     setSeverity("success");
     localStorage.setItem('token',response.data.token)
     setMessage('با موفقیت وارد شدید');
@@ -124,6 +127,7 @@ const closeHandler = () => {
   setOpen(false)
 }
   return (
+<StylesProvider jss={jss}>
   <ThemeProvider theme={theme}>
     <Grid container component="main" className={classes.root}>
       <Success open = {open} severity = {severity} message = {message} onClose = {closeHandler}/>
@@ -187,5 +191,6 @@ const closeHandler = () => {
       </Grid>
     </Grid>
   </ThemeProvider>
+</StylesProvider>
   );
 }
