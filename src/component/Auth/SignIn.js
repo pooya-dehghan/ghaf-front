@@ -105,7 +105,7 @@ export default function SignInSide() {
   // formData.append('password',password)
 const clickHandler = (e) => {
   e.preventDefault()
-    axios.post('https://api.ghaf.live/api/login', {
+    axios.post('something', {
     email: email,
     password:password
   })

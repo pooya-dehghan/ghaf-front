@@ -125,14 +125,14 @@ export default function RoomJoin(props) {
   const [open,setOpen] = useState(false);
   const [severity, setSeverity] = useState("");
   const [tab,setTab] = useState(0);
-  const [isWaiting , setIsWaiting] = useState(false)
+  const [isWaiting , setIsWaiting] = useState(false);
   let params = useParams();
   let room_id = params.room_code;
 
   useEffect(() => {
     if(isWaiting){
       const interval = setInterval(async () => {
-        await axios.post('https://api.ghaf.live/api/join/' + room_id, {
+        await axios.post('something' + room_id, {
           email: email,
           password: password
         })
@@ -155,7 +155,7 @@ export default function RoomJoin(props) {
 
   const clickHandlerUser = (e) => {
   e.preventDefault()
-    axios.post('https://api.ghaf.live/api/join/' + room_id ,{
+    axios.post('something' + room_id ,{
     email : email,
     password : password
   })
@@ -197,7 +197,7 @@ export default function RoomJoin(props) {
 const clickHandlerGuest = (e) => {
   e.preventDefault()
 
-    axios.get('https://api.ghaf.live/api/join/' + room_id,{
+    axios.get('something' + room_id,{
     name:name
   })
   .then(function (response) {

@@ -96,7 +96,7 @@ export default function SignUp() {
 
   const clickHandler = (e) => {
   e.preventDefault()
-    axios.post('https://api.ghaf.live/api/register', {
+    axios.post('something', {
     email: email,
     password: password,
     name: name
