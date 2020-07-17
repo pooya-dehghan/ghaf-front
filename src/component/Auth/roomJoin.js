@@ -132,7 +132,7 @@ export default function RoomJoin(props) {
   useEffect(() => {
     if(isWaiting){
       const interval = setInterval(async () => {
-        await axios.post('something' + room_id, {
+        await axios.post('somethin' + room_id, {
           email: email,
           password: password
         })
